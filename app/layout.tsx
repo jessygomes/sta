@@ -4,7 +4,7 @@ import { Krub } from "next/font/google";
 import Footer from "@/components/Shared/Footer";
 import Header from "@/components/Shared/Header";
 
-export const krub = Krub({
+const krub = Krub({
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   subsets: ["latin"],
