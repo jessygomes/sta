@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Shared/Navbar";
+import { Krub } from "next/font/google";
 import Footer from "@/components/Shared/Footer";
+import Header from "@/components/Shared/Header";
+
+export const krub = Krub({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-krub",
+});
 
 export const metadata: Metadata = {
   title: "ShopTonAlternance",
@@ -14,9 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${krub.variable}`}>
       <body>
-        <Navbar />
+        <div className="sticky top-4 mt-4 w-full z-50">
+          <Header />
+        </div>
         {children}
         <Footer />
       </body>
