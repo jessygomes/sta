@@ -1,0 +1,169 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Role {
+  admin
+  user
+}
+
+//! USER
+model User {
+  id                     String                 @id @default(cuid())
+  email                  String?                @unique
+  emailVerified          DateTime?
+  name                   String?
+  firstName              String?
+  lastName               String?
+  password               String?
+  role                   Role                   @default(user)
+  image                  String?
+  createdAt              DateTime               @default(now())
+  updatedAt              DateTime               @default(now())
+  accounts               Account[]
+  isTwofactorEnabled     Boolean?               @default(false)
+  twoFactoFrConfirmation TwoFactorConfirmation?
+  isVerified             Boolean                @default(false)
+
+  @@map("user")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+//! DATA 
+model Offre {
+  id        String   @id @default(cuid())
+  nom       String
+  description String
+  parametres Json    // Stocke les paramètres spécifiques à l'offre (ex: nb d'entreprises accessibles, types d'infos visibles)
+  codes     Code[]   // Relation avec les codes générés pour cette offre
+
+  @@map("offre")
+}
+
+model Filiere {
+  id         String       @id @default(cuid())
+  nom        String
+  entreprises EntrepriseFiliere[] // Relation avec les entreprises
+  codes      Code[]       // Relation avec les codes générés pour cette filière
+
+  @@map("filiere")
+}
+
+model Entreprise {
+  id                   String  @id @default(cuid())
+  nom                  String
+  adressePostale       String
+  siret                String?  @unique
+  nafApe               String?
+  email                String?
+  responsable          String?
+  nomTuteur           String?
+  telephone           String?
+  emailTuteur         String?
+  telephoneTuteur     String?
+  filieres            EntrepriseFiliere[] // Relation avec les filières
+  codes               CodeEntreprise[] // Relation avec les codes générés pour cette entreprise
+
+  @@map("entreprise")
+}
+
+model EntrepriseFiliere {
+  entrepriseId String
+  filiereId    String
+  entreprise   Entreprise @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  filiere      Filiere    @relation(fields: [filiereId], references: [id], onDelete: Cascade)
+
+  @@id([entrepriseId, filiereId])
+  @@map("entreprise_filiere")
+}
+
+model Code {
+  id           String    @id @default(cuid())
+  code         String    @unique
+  userFirstname String?  // Optionnel : Prénom de l'utilisateur ayant généré le code
+  userLastname  String?  // Optionnel : Nom de l'utilisateur ayant généré le code
+  offreId      String
+  offre        Offre     @relation(fields: [offreId], references: [id], onDelete: Cascade)
+  filiereId    String
+  filiere      Filiere   @relation(fields: [filiereId], references: [id], onDelete: Cascade)
+  entreprises  CodeEntreprise[] // Nouvelle table de liaison pour stocker les entreprises associées
+  createdAt    DateTime  @default(now()) // Date de génération du code
+  expiresAt    DateTime? // Optionnel : Expiration du code
+
+  @@map("code")
+}
+
+model CodeEntreprise {
+  codeId       String
+  entrepriseId String
+  code         Code       @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  entreprise   Entreprise @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+
+  @@id([codeId, entrepriseId])
+  @@map("code_entreprise")
+}
