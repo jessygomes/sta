@@ -1,6 +1,7 @@
 export interface OffreProps {
   nom: string;
   description: string;
+  price: number;
   parametres: {
     access: number;
     details: {
@@ -15,4 +16,13 @@ export interface OffreProps {
       telephoneTuteur: boolean;
     };
   };
+}
+
+export interface OffreFrontProps {
+  id: string;
+  nom: string;
+  description: string;
+  price: number | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parametres: any;
 }

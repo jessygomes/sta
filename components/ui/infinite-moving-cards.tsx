@@ -11,9 +11,7 @@ export const InfiniteMovingCards = ({
   className,
 }: {
   items: {
-    quote: string;
-    name: string;
-    title: string;
+    nom: string;
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
@@ -83,14 +81,14 @@ export const InfiniteMovingCards = ({
         )}
       >
         {items.map((item) => (
-          <li className=" relative rounded-3xl w-[200px] h-10" key={item.name}>
+          <li className=" relative rounded-3xl w-[200px] h-10" key={item.nom}>
             <blockquote className="w-full h-full text-center rounded-3xl p-2">
               {/* <div
                 aria-hidden="true"
                 className="user-select-none -z-1 pointer-events-none absolute -left-0.5 -top-0.5 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
               ></div> */}
               <span className="relative text-center text-sm text-black font-krub font-bold">
-                {item.quote}
+                {item.nom}
               </span>
               {/* <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">

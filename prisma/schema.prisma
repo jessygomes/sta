@@ -99,6 +99,7 @@ model Offre {
   id        String   @id @default(cuid())
   nom       String
   description String
+  price     Int?  // Optionnel : Prix de l'offre
   parametres Json    // Stocke les paramètres spécifiques à l'offre (ex: nb d'entreprises accessibles, types d'infos visibles)
   codes     Code[]   // Relation avec les codes générés pour cette offre
 
@@ -147,6 +148,7 @@ model Code {
   code         String    @unique
   userFirstname String?  // Optionnel : Prénom de l'utilisateur ayant généré le code
   userLastname  String?  // Optionnel : Nom de l'utilisateur ayant généré le code
+  email         String?  // Optionnel : Email de l'utilisateur ayant généré le code
   offreId      String
   offre        Offre     @relation(fields: [offreId], references: [id], onDelete: Cascade)
   filiereId    String

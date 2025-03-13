@@ -10,6 +10,7 @@ export default function OffreForm() {
   const router = useRouter();
   const [nom, setNom] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<number>(99);
   const [access, setAccess] = useState<number>(100);
   const [details, setDetails] = useState({
     adresseMail: true,
@@ -34,6 +35,10 @@ export default function OffreForm() {
     setDescription(event.target.value);
   };
 
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPrice(Number(event.target.value));
+  };
+
   const handleAccessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAccess(Number(event.target.value));
   };
@@ -55,6 +60,7 @@ export default function OffreForm() {
         const newOffre = await createOffre({
           nom,
           description,
+          price,
           parametres: { access, details },
         });
         toast.success("Offre créée avec succès");
@@ -114,18 +120,34 @@ export default function OffreForm() {
             required
           />
         </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700">
-            Accès à (nombre d'entreprises)
-          </label>
-          <input
-            type="number"
-            value={access}
-            onChange={handleAccessChange}
-            className="mt-1 block w-full border-b-[1px] pb-1 border-primary-500 text-sm"
-            required
-          />
+
+        <div className="flex w-full gap-4">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700">
+              Prix de l'offre (€)
+            </label>
+            <input
+              type="number"
+              value={price}
+              onChange={handlePriceChange}
+              className="mt-1 block w-full border-b-[1px] pb-1 border-primary-500 text-sm"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700">
+              Accès à (nombre d'entreprises)
+            </label>
+            <input
+              type="number"
+              value={access}
+              onChange={handleAccessChange}
+              className="mt-1 block w-full border-b-[1px] pb-1 border-primary-500 text-sm"
+              required
+            />
+          </div>
         </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Paramètres (détails)

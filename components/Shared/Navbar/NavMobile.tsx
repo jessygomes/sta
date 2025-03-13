@@ -81,6 +81,7 @@ export default function NavMobile() {
                       ? `/#cestquoi`
                       : link.href
                   }
+                  onClick={handleClose}
                 >
                   {link.label}
                 </Link>
@@ -89,7 +90,8 @@ export default function NavMobile() {
           })}
           <li>
             <Link
-              href={"/login"}
+              href={"/rentrer-son-code"}
+              onClick={handleClose}
               className="pl-2 text-white font-krub text-xs underline"
             >
               Rentrer son code

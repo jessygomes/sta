@@ -3,11 +3,13 @@ import HeroSection from "@/components/Home/HeroSection";
 import TableauExample from "@/components/Home/TableauExample/TableauExample";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { InfiniteMovingCardsTesti } from "@/components/ui/infinite-moving-cardsTesti";
-import { btsList } from "@/lib/btsList";
+import { getAllFiliere } from "@/lib/actions/filiere.action";
+// import { btsList } from "@/lib/btsList";
 import { testimonials } from "@/lib/testimonials";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const filieres = await getAllFiliere();
   return (
     <>
       <section className="mx-2 lg:mx-24">
@@ -15,7 +17,13 @@ export default function Home() {
       </section>
 
       <section className="relative bg-gradient-to-l from-white via-gray-200 to-white">
-        <InfiniteMovingCards items={btsList} direction="right" speed="slow" />
+        {filieres && (
+          <InfiniteMovingCards
+            items={filieres}
+            direction="right"
+            speed="slow"
+          />
+        )}
         <div className="absolute top-0 left-0 w-4/10 h-10 bg-gradient-to-r from-white" />
         <div className="absolute top-0 right-0 w-4/10 h-10 bg-gradient-to-l from-white" />
       </section>
@@ -66,7 +74,7 @@ export default function Home() {
               plus facilement !
             </span>
           </p>
-          <div className="">
+          <div className="rounded-2xl">
             <TableauExample />
           </div>
           <p className="pt-8 text-center font-krub text-2xl font-bold">

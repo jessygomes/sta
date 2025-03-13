@@ -53,6 +53,7 @@ export async function createOffre(offre: OffreProps) {
       data: {
         nom: offre.nom,
         description: offre.description,
+        price: offre.price,
         parametres: JSON.stringify(offre.parametres), // Convertir les paramètres en JSON
       },
     });

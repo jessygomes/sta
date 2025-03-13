@@ -14,6 +14,7 @@ import OffreForm from "@/components/admin/Offres/OffreForm";
 import DeleteOffreBtn from "@/components/admin/Offres/DeleteOffreBtn";
 import FiliereForm from "@/components/admin/Filieres/FiliereForm";
 import DeleteFiliereBtn from "@/components/admin/Filieres/DeleteFiliereBtn";
+import { getAllCodes } from "@/lib/actions/code.action";
 
 export default async function page() {
   const role = await currentRole();
@@ -29,6 +30,9 @@ export default async function page() {
     const filieres = await getAllFiliere();
 
     const companies = await getAllCompanies();
+
+    const codes = await getAllCodes();
+    console.log(codes);
 
     {
       /* Voir les codes avec le mail et le nom associé lors de l'achat */

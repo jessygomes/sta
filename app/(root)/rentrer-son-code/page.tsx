@@ -1,5 +1,10 @@
+import RentrerSonCodeForm from "@/components/Codes/RentrerSonCodeForm";
 import React from "react";
 
 export default function page() {
-  return <div>page</div>;
+  return (
+    <section className="-mt-18 h-screen bg-primary-900">
+      <RentrerSonCodeForm />
+    </section>
+  );
 }

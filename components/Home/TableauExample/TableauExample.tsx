@@ -2,9 +2,9 @@ import { dataEntreprises } from "@/lib/companyList";
 
 export default function TableauExample() {
   return (
-    <div className="w-full h-auto relative bg-white rounded-2xl shadow-md p-4">
+    <div className="w-full h-auto relative bg-white rounded-2xl shadow-[0px_8px_4px_0px_rgba(0,0,0,0.35)] p-4">
       {/* Dégradé en bas pour l'effet visuel */}
-      <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-white via-white/90" />
+      <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-white via-white/90 rounded-2xl" />
 
       {/* Titre */}
       <div className="text-black text-xs font-bold font-krub mb-4">

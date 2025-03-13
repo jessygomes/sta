@@ -50,7 +50,7 @@ export default function Navbar() {
 
       <div>
         <Link
-          href={"/login"}
+          href={"/rentrer-son-code"}
           className="text-white font-krub text-xs underline"
         >
           Rentrer son code
