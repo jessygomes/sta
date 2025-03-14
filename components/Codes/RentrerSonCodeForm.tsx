@@ -59,41 +59,43 @@ export default function RentrerSonCodeForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mx-4 lg:mx-24 py-64">
+    <div className="flex flex-col items-center justify-center mx-4 lg:mx-24 py-16">
       {entreprises ? (
         <EntrepriseList entreprises={entreprises} btsNom={btsNom} />
       ) : (
         <>
-          <div className="font-krub text-center text-white mb-4">
-            <h1 className="text-4xl font-bold mb-4 font-krub">
-              Entrez votre code
-            </h1>
-            <p>
-              Rentrez le code secret reçu par mail pour accéder à votre liste
-              d'entreprises ciblées.
-            </p>
-          </div>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4 font-krub"
-          >
-            <input
-              type="text"
-              placeholder="Votre code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="border p-2 rounded-2xl w-64 text-white"
-              required
-            />
-            <button
-              type="submit"
-              className="cursor-pointer bg-primary-500 text-white py-2 px-4 rounded-2xl hover:bg-primary-700 transition"
-              disabled={loading}
+          <div className="flex flex-col items-center justify-center mx-4 lg:mx-24 py-64">
+            <div className="font-krub text-center text-white mb-4">
+              <h1 className="text-4xl font-bold mb-4 font-krub">
+                Entrez votre code
+              </h1>
+              <p>
+                Rentrez le code secret reçu par mail pour accéder à votre liste
+                d'entreprises ciblées.
+              </p>
+            </div>
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4 font-krub"
             >
-              {loading ? "Vérification..." : "Accéder à ma liste"}
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="Votre code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                className="border p-2 rounded-2xl w-64 text-white"
+                required
+              />
+              <button
+                type="submit"
+                className="cursor-pointer bg-primary-500 text-white py-2 px-4 rounded-2xl hover:bg-primary-700 transition"
+                disabled={loading}
+              >
+                {loading ? "Vérification..." : "Accéder à ma liste"}
+              </button>
+            </form>
+          </div>
         </>
       )}
     </div>

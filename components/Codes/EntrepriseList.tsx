@@ -22,13 +22,13 @@ export default function EntrepriseList({
   return (
     <div className="container mx-auto py-16">
       <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold font-krub">
+        <h1 className="text-4xl text-white font-bold font-krub">
           <span className="text-primary-500">Votre liste</span> d’entreprises
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-white/80 mt-2">
           🎯 <span className="font-bold">{entreprises.length}</span> entreprises
           ciblées pour{" "}
-          <span className="font-bold text-primary-500">{btsNom}</span>.
+          <span className="font-bold text-primary-500">{btsNom}</span>
         </p>
       </div>
 

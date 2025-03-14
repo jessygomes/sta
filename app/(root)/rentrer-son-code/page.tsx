@@ -3,7 +3,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <section className="-mt-18 h-screen bg-primary-900">
+    <section className="-mt-18  bg-primary-900">
       <RentrerSonCodeForm />
     </section>
   );

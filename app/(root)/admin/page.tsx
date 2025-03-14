@@ -5,16 +5,16 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { getAllFiliere } from "@/lib/actions/filiere.action";
 import CompanyForm from "@/components/admin/CompanyForm";
-import {
-  getAllCompanies,
-  // getCompaniesByFiliere,
-} from "@/lib/actions/company.action";
+import // getAllCompanies,
+// getCompaniesByFiliere,
+"@/lib/actions/company.action";
 import Accordion from "@/components/admin/Accordion";
 import OffreForm from "@/components/admin/Offres/OffreForm";
 import DeleteOffreBtn from "@/components/admin/Offres/DeleteOffreBtn";
 import FiliereForm from "@/components/admin/Filieres/FiliereForm";
 import DeleteFiliereBtn from "@/components/admin/Filieres/DeleteFiliereBtn";
-import { getAllCodes } from "@/lib/actions/code.action";
+// import { getAllCodes } from "@/lib/actions/code.action";
+import Link from "next/link";
 
 export default async function page() {
   const role = await currentRole();
@@ -29,10 +29,9 @@ export default async function page() {
 
     const filieres = await getAllFiliere();
 
-    const companies = await getAllCompanies();
+    // const companies = await getAllCompanies();
 
-    const codes = await getAllCodes();
-    console.log(codes);
+    // const codes = await getAllCodes();
 
     {
       /* Voir les codes avec le mail et le nom associé lors de l'achat */
@@ -71,26 +70,32 @@ export default async function page() {
             <div className="grid grid-cols-3 gap-4">
               {offres &&
                 offres.map((offre) => (
-                  <p
+                  <Link
+                    href={`/admin/offres/${offre.id}`}
                     key={offre.id}
-                    className="bg-primary-700 p-2 rounded-2xl text-white font-krub"
+                    className="bg-primary-700 p-2 rounded-2xl text-white font-krub hover:bg-primary-600 transition-colors duration-300"
                   >
                     {offre.nom} :{" "}
                     {nbCodeByOffre && nbCodeByOffre[offre.id]
                       ? nbCodeByOffre[offre.id]
                       : 0}{" "}
                     <span className="text-xs">codes générés</span>
-                  </p>
+                  </Link>
                 ))}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <p className="bg-primary-800 p-2 rounded-2xl text-white font-krub">
                 Nb Filière (total) : {filieres?.length}
               </p>
-              <p className="flex justify-between items-center bg-primary-800 p-2 rounded-2xl text-white font-krub">
+              {/* <p className="flex justify-between items-center bg-primary-800 p-2 rounded-2xl text-white font-krub">
                 Nb Entreprises (total) : {companies?.length}
-                <span className="text-xs cursor-pointer">Voir tous</span>
-              </p>
+                <Link
+                  href={"/admin/entreprises"}
+                  className="text-xs cursor-pointer"
+                >
+                  Voir tous
+                </Link>
+              </p> */}
             </div>
           </div>
         </section>

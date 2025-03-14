@@ -1,4 +1,5 @@
 "use server";
+import { currentRole } from "../authAction/auth";
 import { db } from "../db";
 
 //! All codes
@@ -20,6 +21,66 @@ export async function getCodeByOffreId(offreId: string) {
       },
     });
     return codes;
+  } catch {
+    return null;
+  }
+}
+
+export async function getCodesFiltreByOffreId(
+  offreId: string,
+  page: number,
+  query: string,
+  limit: number
+) {
+  try {
+    const role = await currentRole();
+    if (role !== "admin") {
+      return null;
+    }
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const codes = await db.code.findMany({
+      where: {
+        offreId,
+        OR: [
+          { userFirstname: { contains: query, mode: "insensitive" } },
+          { userLastname: { contains: query, mode: "insensitive" } },
+          { email: { contains: query, mode: "insensitive" } },
+          {
+            filiere: {
+              nom: { contains: query, mode: "insensitive" },
+            },
+          },
+        ],
+      },
+      include: {
+        filiere: true,
+      },
+      skip: skipAmount,
+      take: limit,
+    });
+
+    const totalCodes = await db.code.count({
+      where: {
+        offreId,
+        OR: [
+          { userFirstname: { contains: query, mode: "insensitive" } },
+          { userLastname: { contains: query, mode: "insensitive" } },
+          { email: { contains: query, mode: "insensitive" } },
+          {
+            filiere: {
+              nom: { contains: query, mode: "insensitive" },
+            },
+          },
+        ],
+      },
+    });
+
+    return {
+      data: codes,
+      totalPages: Math.ceil(totalCodes / limit),
+    };
   } catch {
     return null;
   }

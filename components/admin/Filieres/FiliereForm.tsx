@@ -48,7 +48,7 @@ export default function FiliereForm() {
             type="text"
             value={nom}
             onChange={handleNameChange}
-            placeholder="Ex: Informatique"
+            placeholder="Ex: BTS Informatique"
             className="mt-1 block w-full border-b-[1px] pb-1 border-primary-500 text-sm"
             required
           />

@@ -1,13 +1,65 @@
+"use server";
+import { currentRole } from "../authAction/auth";
 import { db } from "../db";
 import { CompanyProps } from "../types/company";
 // import fs from "fs";
 // import path from "path";
 
 // Voir toutes les entreprises
-export async function getAllCompanies() {
+export async function getAllCompanies(
+  page: number,
+  query: string,
+  limit: number
+) {
   try {
-    const companies = await db.entreprise.findMany();
-    return companies;
+    const role = await currentRole();
+    if (role !== "admin") {
+      return null;
+    }
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const companies = await db.entreprise.findMany({
+      where: {
+        OR: [
+          { nom: { contains: query, mode: "insensitive" } },
+          // { siret: { contains: query, mode: "insensitive" } },
+          // { nafApe: { contains: query, mode: "insensitive" } },
+          // { email: { contains: query, mode: "insensitive" } },
+          // { responsable: { contains: query, mode: "insensitive" } },
+          // { nomTuteur: { contains: query, mode: "insensitive" } },
+          // { telephone: { contains: query, mode: "insensitive" } },
+          // { emailTuteur: { contains: query, mode: "insensitive" } },
+          // { telephoneTuteur: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        filieres: true,
+      },
+      skip: skipAmount,
+      take: limit,
+    });
+
+    const totalCompanies = await db.entreprise.count({
+      where: {
+        OR: [
+          { nom: { contains: query, mode: "insensitive" } },
+          // { siret: { contains: query, mode: "insensitive" } },
+          // { nafApe: { contains: query, mode: "insensitive" } },
+          // { email: { contains: query, mode: "insensitive" } },
+          // { responsable: { contains: query, mode: "insensitive" } },
+          // { nomTuteur: { contains: query, mode: "insensitive" } },
+          // { telephone: { contains: query, mode: "insensitive" } },
+          // { emailTuteur: { contains: query, mode: "insensitive" } },
+          // { telephoneTuteur: { contains: query, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    return {
+      data: companies,
+      totalPages: Math.ceil(totalCompanies / limit),
+    };
   } catch {
     return null;
   }
